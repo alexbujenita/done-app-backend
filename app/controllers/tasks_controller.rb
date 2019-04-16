@@ -9,6 +9,16 @@ class TasksController < ApplicationController
     end
   end
 
+  def done
+    task = Task.find(params[:id])
+    task.completed = !task.completed
+    if task.save
+      render json: {info: 'Task completed'}
+    else
+      render json: { error: 'Bad Request' }, status: 400
+    end
+  end
+
   def destroy
     if Task.find(params[:id]).destroy
       render json: {info: 'Task has been removed'}
